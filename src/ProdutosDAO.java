@@ -23,7 +23,7 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
-    public void cadastrarProduto (ProdutosDTO produto){        
+public void cadastrarProduto (ProdutosDTO produto){        
         conn = new conectaDAO().connectDB();
  try {
  String sql = "insert into produtos (nome, valor, status) values (?,?,?)";
@@ -41,13 +41,29 @@ public class ProdutosDAO {
         
     }
     
-    public ArrayList<ProdutosDTO> listarProdutos(){
-        
+public ArrayList<ProdutosDTO> listarProdutos() {
+    ArrayList<ProdutosDTO> produtos = new ArrayList<ProdutosDTO>();
+    
+    conn = new conectaDAO().connectDB();
+    String sql = "SELECT * FROM produtos";
+    try {       
+            prep = conn.prepareStatement(sql);
+            resultset = prep.executeQuery();
+            while(resultset.next()) {
+                ProdutosDTO p = new ProdutosDTO();
+                p.setId(resultset.getInt("id"));
+                p.setNome(resultset.getString("nome"));
+                p.setValor(resultset.getInt("valor"));
+                p.setStatus(resultset.getString("status"));
+                produtos.add(p);            }
+            
+        } catch ( SQLException sqle ) {
+    System.out.println( "Erro no acesso ao Bando de Dados : "+ sqle.getMessage()); }
+    return produtos;    
+    }
+
+public ArrayList<ProdutosDTO> listaProduto() {
         return listagem;
     }
-    
-    
-    
-        
 }
 

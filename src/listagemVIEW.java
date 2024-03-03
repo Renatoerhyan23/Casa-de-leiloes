@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -42,6 +43,13 @@ public class listagemVIEW extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         listaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -153,6 +161,11 @@ public class listagemVIEW extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+      ProdutosDAO PO = new ProdutosDAO();
+      this.preencheTabela(PO.listarProdutos());
+    }//GEN-LAST:event_formWindowGainedFocus
+
     /**
      * @param args the command line arguments
      */
@@ -201,6 +214,24 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JTable listaProdutos;
     // End of variables declaration//GEN-END:variables
 
+public void preencheTabela(List<ProdutosDTO> Produtos){      
+      String columns[] = {"Id", "Nome", "Valor", "Status"};
+      String dados[][] = new String[Produtos.size()][columns.length];
+      
+      int i=0;
+      for(ProdutosDTO p: Produtos){
+          dados[i] = new String[]{ 
+              String.valueOf(p.getId()),
+              p.getNome(),
+              String.valueOf(p.getValor()),
+              p.getStatus()};              
+          i++;
+      }
+      
+      DefaultTableModel model = new DefaultTableModel(dados, columns);
+      listaProdutos.setModel(model); 
+    }
+        
     private void listarProdutos(){
         try {
             ProdutosDAO produtosdao = new ProdutosDAO();
