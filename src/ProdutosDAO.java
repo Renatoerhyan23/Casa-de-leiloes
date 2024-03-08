@@ -62,6 +62,16 @@ public ArrayList<ProdutosDTO> listarProdutos() {
     return produtos;    
     }
 
+public void venderProduto(int id){
+     try {
+   conn = new conectaDAO().connectDB();
+   prep = conn.prepareStatement("UPDATE produtos SET status = 'Vendido' WHERE id = ?");   
+   prep.setInt(1, id);
+   prep.executeUpdate();
+   JOptionPane.showMessageDialog(null, "Venda realizada com sucesso!");
+}catch (SQLException ex) { JOptionPane.showMessageDialog(null, "Houve um erro na atualização dos dados, tente atualizá-los novamente!");
+} }
+
 public ArrayList<ProdutosDTO> listaProduto() {
         return listagem;
     }
