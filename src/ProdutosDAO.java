@@ -21,7 +21,6 @@ public class ProdutosDAO {
     Connection conn;
     PreparedStatement prep;
     ResultSet resultset;
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
 public void cadastrarProduto (ProdutosDTO produto){        
         conn = new conectaDAO().connectDB();
@@ -72,8 +71,25 @@ public void venderProduto(int id){
 }catch (SQLException ex) { JOptionPane.showMessageDialog(null, "Houve um erro na atualização dos dados, tente atualizá-los novamente!");
 } }
 
-public ArrayList<ProdutosDTO> listaProduto() {
-        return listagem;
+public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+    ArrayList<ProdutosDTO> produtos = new ArrayList<ProdutosDTO>();
+    
+    conn = new conectaDAO().connectDB();
+    String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+    try {       
+        prep = conn.prepareStatement(sql);
+        resultset = prep.executeQuery();
+         while(resultset.next()) {
+           ProdutosDTO p = new ProdutosDTO();
+            p.setId(resultset.getInt("id"));
+            p.setNome(resultset.getString("nome"));
+            p.setValor(resultset.getInt("valor"));
+            p.setStatus(resultset.getString("status"));
+           produtos.add(p);            }
+            
+        } catch ( SQLException sqle ) {
+    System.out.println( "Erro no acesso ao Bando de Dados : "+ sqle.getMessage()); }
+    return produtos;
     }
 }
 

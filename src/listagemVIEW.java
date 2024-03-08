@@ -232,14 +232,14 @@ public void preencheTabela(List<ProdutosDTO> Produtos){
       listaProdutos.setModel(model); 
     }
         
-    private void listarProdutos(){
-        try {
-            ProdutosDAO produtosdao = new ProdutosDAO();
+private void listarProdutos(){
+    try {
+    ProdutosDAO produtosdao = new ProdutosDAO();
             
-            DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
-            model.setNumRows(0);
+     DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
+     model.setNumRows(0);
             
-            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
+     ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
             
             for(int i = 0; i < listagem.size(); i++){
                 model.addRow(new Object[]{
@@ -250,7 +250,7 @@ public void preencheTabela(List<ProdutosDTO> Produtos){
                 });
             }
         } catch (Exception e) {
-        }
+       }
     
     }
 }
